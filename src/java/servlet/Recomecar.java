@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Forca;
 
 /**
  *
@@ -33,16 +34,15 @@ public class Recomecar extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        ArrayList<String> palavras = (ArrayList<String>) getServletContext().getAttribute("palavras");
+        ArrayList<String> palavras = (ArrayList<String>) getServletContext()
+                .getAttribute("palavras");
+        
         Random random = new Random();
         int x = random.nextInt(palavras.size());
-        request.getSession().setAttribute("palavraSorteada", palavras.get(x));
         
-        request.getSession().setAttribute("chances", 5);
-        
-        request.getSession().setAttribute("tentativas", new ArrayList<Integer>());
-        
-        request.getSession().setAttribute("erros", new ArrayList<String>());
+        Forca forca = new Forca(palavras.get(x));
+        //declarando um novo objeto forca por cima do anterior, alterar palavra
+        request.getSession().setAttribute("forca", forca);
         
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }

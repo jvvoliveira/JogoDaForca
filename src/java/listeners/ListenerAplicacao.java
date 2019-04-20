@@ -18,10 +18,11 @@ public class ListenerAplicacao implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         Scanner in = new Scanner(System.in);
+        //o path total do arquivo que contém a base de palavras
         String path = "C:\\Users\\Victor Oliveira\\Documents\\projetosGitHub\\JogoDaForca\\build\\web\\wordlist_pt_br.txt";
         
         ArrayList<String> palavras = new ArrayList<>();
-        try {
+        try {//leitura do arquivo sendo feita linha por linha
             FileReader arq = new FileReader(path);
             BufferedReader lerArq = new BufferedReader(arq);
 
@@ -34,6 +35,7 @@ public class ListenerAplicacao implements ServletContextListener {
         } catch (IOException e) {
             System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
         }
+        // atributo de contexto da aplicação possui todas as palavras salvas
         sce.getServletContext().setAttribute("palavras", palavras);
     }
 

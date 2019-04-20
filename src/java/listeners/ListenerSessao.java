@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+import model.Forca;
 
 /**
  * Web application lifecycle listener.
@@ -19,16 +20,17 @@ public class ListenerSessao implements HttpSessionListener {
 
     @Override
     public void sessionCreated(HttpSessionEvent se) {
+        //recuperando palavras salvas no contexto de aplicação
         ArrayList<String> palavras = (ArrayList<String>) se.getSession().getServletContext().getAttribute("palavras");
+        
+        //número aleatório para obter palavra de qualquer lugar do array
         Random random = new Random();
         int x = random.nextInt(palavras.size());
-        se.getSession().setAttribute("palavraSorteada", palavras.get(x));
-        ArrayList<Integer> tentativas = new ArrayList<>();
-        se.getSession().setAttribute("tentativas", tentativas);
-        ArrayList<String> erros = new ArrayList<>();
-        se.getSession().setAttribute("erros", erros);
-        int chances = 5;
-        se.getSession().setAttribute("chances", chances);
+        String palavraSorteada = palavras.get(x);
+        
+        //cada sessão contará com uma palavra diferente
+        Forca forca = new Forca(palavraSorteada);
+        se.getSession().setAttribute("forca", forca);
     }
 
     @Override

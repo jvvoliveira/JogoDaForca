@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Forca;
 
 /**
  *
@@ -32,26 +33,13 @@ public class Analisador extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String letraUsuario = request.getParameter("letra").toUpperCase();
-        char letra = letraUsuario.charAt(0);
-        String palavra = (String) request.getSession().getAttribute("palavraSorteada");
-
-        int chances = (int) request.getSession().getAttribute("chances");
-        ArrayList<Integer> tentativas = (ArrayList<Integer>) request.getSession().getAttribute("tentativas");
-        ArrayList<String> erros = (ArrayList<String>) request.getSession().getAttribute("erros");
-        boolean acerto = false;
-        for(int i = 0; i < palavra.length(); i++){
-            if(palavra.charAt(i) == letra){
-                tentativas.add(i);
-                acerto = true;
-            }
-        }
-        if(acerto == false){
-            chances--;
-            erros.add(String.valueOf(letra));
-            request.getSession().setAttribute("chances", chances);
-        }
-
+        String tentativa = request.getParameter("letra").toUpperCase();
+        char letra = tentativa.charAt(0); //garantir que apenas se trata de uma letra
+        
+        Forca forca = (Forca) request.getSession().getAttribute("forca");
+        
+        forca.fazerPalpite(letra);
+        
        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
