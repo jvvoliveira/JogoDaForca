@@ -48,9 +48,15 @@ public class Forca {
         }
         return false;
     }
-    
-    public char getProgresso(int i){
-        return this.acertos[i];
+    //verifica se as palavras são iguais
+    public boolean jogoGanho(){
+        boolean ganho = false;
+        for(int i = 0; i < this.acertos.length; i++){
+            if(this.palavra.charAt(i) != this.acertos[i]){
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
